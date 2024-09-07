@@ -1,22 +1,23 @@
 const express = require('express');
-const fruitsData = require('./fruits.json'); // Assuming fruits.json is in the same directory
-
 const app = express();
 const port = 3000;
 
-// Endpoint to search fruit by name
-app.get('/fruits.json/:name', (req, res) => {
-    const fruitName = req.params.name.toLowerCase();
-    const fruit = fruitsData.find(fruit => fruit.name.toLowerCase() === fruitName);
+// Your fruit data
+const fruits = 'https://limkemhout8989.github.io/fruit_api/fruits.json';
 
-    if (!fruit) {
-        res.status(404).json({ error: 'Fruit not found' });
-    } else {
-        res.json(fruit);
-    }
+// API endpoint to get fruit data by ID
+app.get('/fruits/:id', (req, res) => {
+  const id = parseInt(req.params.id); // Get the ID from the URL params
+  const fruit = fruits.find(fruit => fruit.id === id); // Find the fruit with matching ID
+  
+  if (fruit) {
+    res.json(fruit); // Return the fruit data as JSON
+  } else {
+    res.status(404).json({ error: 'Fruit not found' }); // Return 404 if fruit is not found
+  }
 });
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+  console.log(`API server running on http://localhost:${port}`);
 });
