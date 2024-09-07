@@ -1,9 +1,9 @@
-// data.js
+// searchname.js
 fetch('https://limkemhout8989.github.io/fruit_api/fruits.json')
   .then(response => response.json())
   .then(fruits => {
     const path = window.location.pathname;
-    const id = path.substring(path.lastIndexOf('/') + 1);
+    const id = path.split('/').pop();
 
     const fruit = fruits.find(f => f.id == id);
     const result = fruit ? fruit : { error: "Fruit not found" };
