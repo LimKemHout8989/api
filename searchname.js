@@ -1,23 +1,10 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+// JavaScript code to handle API requests and respond with fruit data
+async function getFruitById(id) {
+  const response = await fetch('fruits.json');
+  const fruits = await response.json();
+  const fruit = fruits.find(f => f.id === parseInt(id));
+  return fruit ? fruit : { message: 'Fruit not found' };
+}
 
-// Your fruit data
-const fruits = 'https://limkemhout8989.github.io/fruit_api/fruits.json';
-
-// API endpoint to get fruit data by ID
-app.get('/fruits/:id', (req, res) => {
-  const id = parseInt(req.params.id); // Get the ID from the URL params
-  const fruit = fruits.find(fruit => fruit.id === id); // Find the fruit with matching ID
-  
-  if (fruit) {
-    res.json(fruit); // Return the fruit data as JSON
-  } else {
-    res.status(404).json({ error: 'Fruit not found' }); // Return 404 if fruit is not found
-  }
-});
-
-// Start the server
-app.listen(port, () => {
-  console.log(`API server running on http://localhost:${port}`);
-});
+// Example usage: log fruit with ID 1
+getFruitById(1).then(fruit => console.log(fruit));
