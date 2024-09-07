@@ -7,8 +7,8 @@
 </head>
 <body>
     <script>
-        // Function to fetch and display JSON data based on the query parameter 'id'
         async function fetchFruitData() {
+            // Extract the 'id' from the URL query parameters
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
 
@@ -18,18 +18,22 @@
             }
 
             try {
+                // Fetch the JSON data from the file
                 const response = await fetch('fruits.json');
                 const fruits = await response.json();
 
+                // Find the fruit by ID
                 const fruit = fruits.find(f => f.id == id);
                 const result = fruit ? fruit : { error: "Fruit not found" };
 
+                // Display the result as JSON
                 document.body.innerText = JSON.stringify(result, null, 2);
             } catch (error) {
                 document.body.innerText = JSON.stringify({ error: "Failed to load data" }, null, 2);
             }
         }
 
+        // Call the function to fetch and display the data
         fetchFruitData();
     </script>
 </body>
