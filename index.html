@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #json-result {
+            white-space: pre-wrap;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>JSON Data Viewer</h1>
+    <input type="number" id="fruitId" placeholder="Enter fruit ID" min="1">
+    <button onclick="fetchFruitById()">Search</button>
+    <div id="json-result"></div>
+
+    <script>
+        async function fetchFruitById() {
+            const id = document.getElementById('fruitId').value;
+
+            if (!id) {
+                document.getElementById('json-result').innerText = JSON.stringify({ error: "No ID provided" }, null, 2);
+                return;
+            }
+
+            try {
+                const response = await fetch('fruits.json');
+                const fruits = await response.json();
+
+                const fruit = fruits.find(f => f.id == id);
+                const result = fruit ? fruit : { error: "Fruit not found" };
+
+                document.getElementById('json-result').innerText = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('json-result').innerText = JSON.stringify({ error: "Failed to load data" }, null, 2);
+            }
+        }
+    </script>
+</body>
+</html>
