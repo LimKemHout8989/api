@@ -1,5 +1,5 @@
 // data.js
-fetch('fruits.json')
+fetch('https://limkemhout8989.github.io/fruit_api/fruits.json')
   .then(response => response.json())
   .then(fruits => {
     const path = window.location.pathname;
