@@ -1,10 +1,15 @@
-// JavaScript code to handle API requests and respond with fruit data
-async function getFruitById(id) {
-  const response = await fetch('fruits.json');
-  const fruits = await response.json();
-  const fruit = fruits.find(f => f.id === parseInt(id));
-  return fruit ? fruit : { message: 'Fruit not found' };
-}
+// data.js
+fetch('fruits.json')
+  .then(response => response.json())
+  .then(fruits => {
+    const path = window.location.pathname;
+    const id = path.substring(path.lastIndexOf('/') + 1);
 
-// Example usage: log fruit with ID 1
-getFruitById(1).then(fruit => console.log(fruit));
+    const fruit = fruits.find(f => f.id == id);
+    const result = fruit ? fruit : { error: "Fruit not found" };
+
+    document.body.innerText = JSON.stringify(result, null, 2);
+  })
+  .catch(error => {
+    document.body.innerText = JSON.stringify({ error: "Failed to load data" }, null, 2);
+  });
